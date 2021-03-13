@@ -3,6 +3,8 @@ import java.io.*;
 
 //순차검색 알고리즘
 public class SequentialSearch {
+    static int cnt;
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -24,13 +26,19 @@ public class SequentialSearch {
         if (index == -1) {
             System.out.print("데이터가 배열 안에 존재하지 않음");
         } else
-            System.out.print("  " + index + "번 째에 있음");
+            System.out.print(index + "번 째에 있음");
+
+        // W(n) =n, B(n) =1
+        // A(n) = (n+1)/2
+        System.out.print("\n탐색을 위해 비교한 횟수: " + cnt);
         System.out.print("\n------------------");
 
     }
 
     static int search(int[] arr, int search) {
+        cnt = 0;
         for (int i = 0; i < arr.length; i++) {
+            cnt++;
             if (arr[i] == search) {
                 return i + 1;
             }
