@@ -1,4 +1,4 @@
-# BASIC-ALGORITHM registory
+# BASIC-ALGORITHM repository
 
 <hr/>
 
