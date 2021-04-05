@@ -21,14 +21,14 @@ public class dichotomous_search2{
         } else if (f(xl) * f(xr) > 0) {
             xl = xr;
         } else if (f(xl) * f(xr) == 0) {
-            System.out.print("수치해석과제, 20192608김규리 \n반복횟수: " + iter + "\n찾는 근: " + xr);
+            System.out.print(" \n반복횟수: " + iter + "\n찾는 근: " + xr);
             return;
         }
 
         // 근을 찾고 출력
         double answer;
         answer = cal();
-        System.out.print("수치해석과제, 20192608김규리 \n반복횟수: " + iter + "\n찾는 근: " + answer);
+        System.out.print(" \n반복횟수: " + iter + "\n찾는 근: " + answer);
     }
     
     //주어진 함수
