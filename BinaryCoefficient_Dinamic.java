@@ -2,7 +2,6 @@ import java.util.*;
 import java.io.*;
 
 public class BinaryCoefficient_Dinamic {
-
     
     // 팩토리얼/재귀호출은 시간복잡도가 높다. 따라서 해당 값들은 배열에 저장시키고 불러옴으로써, 계산횟수를 줄여보자
     // 즉, 동적으로 구해보자.
@@ -43,8 +42,9 @@ public class BinaryCoefficient_Dinamic {
     //리턴할 값 없다. void
     static void dynamic(int n, int r) {
         for (int i = 0; i <= n; i++) {
-            //nC0 값은 항상 0이니 이것도 초기화는 미리 해주자.
-            for (int j = 0; j <= i; j++) {
+            //처음엔 j를 i까지 돌렸는데, 더하는걸 배열의 형태로보면 ㄱ자로 더하니까 쓸모없이 T자로( 이전 행의 값들을 다) 구하지 말자.
+            //나는 각 행들의 r까지만 구해도 충분하고, i가 r보다 작으면, 즉 i개 중에 i보다 많은수를 뽑으면 안되니까 (i, r)중 더 작은 것을 가져와 반복시키자.
+            for (int j = 0; j <= Math.min(i,r); j++) {
                 if (j == 0 || j==i) {
                     Combination[i][j] = 1;
                     continue;
@@ -59,4 +59,6 @@ public class BinaryCoefficient_Dinamic {
     static void print(int i, int j) {
         System.out.println(i + "_C_" + j + "의 값은: " + Combination[i][j]);
     }
+
+    
 }
