@@ -72,7 +72,7 @@ public class FixedPoint_Iteration2{
         int version = sc.nextInt();
 
 
-        System.out.print("\n\t\tx0의 값" + "\t\t ea의 값");
+        System.out.print("\n\t\tx0의 값" + "\t\t\t ea의 값");
         //구한 정보 출력
         System.out.print("\n\n" + "최종 xr값: " + Fixpt(5,0.01,100,100,version) + "\t 반복횟수: " + (iter-1));
         sc.close();
