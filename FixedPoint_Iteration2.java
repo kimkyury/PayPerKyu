@@ -1,64 +1,80 @@
 import java.util.*;
-import java.io.*;
 
-public class FixedPoint_Iteration2 {
-    
-    static double x0 = 5;
-    static double et = 0.01;
+public class FixedPoint_Iteration2{
+     // 고정적 반복법을 통해 실근을 구할 것이다
+     // fx와, x0과, es값은 주어졌다
+    static float x0 = (float)5.00000;
+    //static double x0 = 0;
 
-    // 고정적 반복법을 할 시, g(x)가 3개가 나오므로 이를 선택하는 num을 설정한다
-    static int num;
+    static double es = 1;
+    static double ea;
+    static double imax = 20;
+    static int iter;
 
-    static public double Fx(double x)
-    {
-        double fx= (-0.9)*Math.pow(x,2) + 1.7*x + 25;
-        return fx;
-    }
-    
-    static public double G( double x_last) {
-        // Gx의 식은 어떻게 생겼는가
-        // fx를 x=g(x) 꼴로 변형시키자
-        double x_new = 0;
-
-        double x1 = Math.sqrt((17 * x + 250) / 9);
-        double x2 = -Math.sqrt((17 * x + 250) / 9);
-        double x3 = (9 * Math.pow(x, 2) - 250) / 17;
-
-        if (num == 1) {
-            x_new = x1;
-        } else if (num == 2) {
-            x_new = x2;
-        } else if (num == 3) {
-            x_new = x3;
-        }
-        return x_new;
+    static double f(double x){
+        double y = -0.9*Math.pow(x,2) + 1.7*x + 2.5;
+        //double y = Math.pow(Math.E,-x) *(-x);
+        return y;
     }
 
+    //이차함수인 f(x)에 따른 g(x)의 세 가지 버전
+    static float g1(double xr){
+        float x =  (float) ((9* Math.pow(xr,2) - 25 )/17);
+        //double x =  Math.pow(Math.E, -xr);
+        return x;
+    }
+    static float g2(double xr){
+        float x = (float)(Math.sqrt((17*xr + 25)/9));
+        return x;
+    }
+    static float g3(double xr){
+        float x = (float)-(Math.sqrt((17*xr + 25)/9));
+        return x;
+    }
 
-    public static void main(String[] args) {
-        double xr = x0;
-        int iter = 0;
-        
-        System.out.print("함수 g(x)의 버전을 1, 2, 3 중에 택하세요: ");
-        num = System.in.read();
-
-
-        While(true){
-            double xr_old = xr;
-            xr = G(xr_old);
-
-            //xr을 구했으니 반복횟수 1증가
-            iter = iter+1;
-
-            //참근이 아니라면 Ea를 구하자
-            if (xr != 0){
-                ea = Math.abs((xr-xr_old)/xr)*100;
+    static double Fixpt(float x0, double es, int imax, double ea, int version){
+        //가상코드 바탕의 고정점 반복법 코드
+        float xr_old;
+        float xr = x0;
+        iter =0;
+        while(true){
+            xr_old = xr;
+            
+            System.out.print("\n" + iter + "번째\t\t" + xr + "\t\t" + ea );
+            //고른 버전에 따른 gx함수 호출
+            if(version ==1){
+                xr = g1(xr_old);
+            } else if(version ==2){
+                xr = g2(xr_old);
+            } else if(version ==3){
+                xr = g3(xr_old);
             }
 
-            if(ea < es || iter >= imax){
+            //xr을 구하는 과정에 대한 iter + 1
+            iter +=1;
+
+            if(xr != 0){
+                ea = Math.abs((xr-xr_old)/xr) * 100;
+            }
+
+            if(ea<es || iter >= imax){
                 break;
             }
         }
-        
-    }    
+        return xr;
+    }
+
+    public static void main(String [] args){
+        //fx에 따른 g(x) 식이 3개가 나올 것이니, 그 g(x)값을 무엇을 사용할지 묻자
+        Scanner sc = new Scanner(System.in);
+        System.out.print("f(x)를 통해 구한 x=g(x)는 다음과 같습니다. \n(1) g(x) = 9*x^2 - 25 )/17 \n(2) g(x) = sqrt((17*xr + 25)/9)) \n(3) g(x) = - sqrt((17*xr + 25)/9))");
+        System.out.print("\n\n사용할 g(x)의 버전은 어떤 것입니까? ");
+        int version = sc.nextInt();
+
+
+        System.out.print("\n\t\tx0의 값" + "\t\t ea의 값");
+        //구한 정보 출력
+        System.out.print("\n\n" + "최종 xr값: " + Fixpt(5,0.01,100,100,version) + "\t 반복횟수: " + (iter-1));
+        sc.close();
+    }
 }
